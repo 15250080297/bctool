@@ -18,10 +18,22 @@ import '@/icons' // icon
 
 import "../node_modules/ag-grid/dist/styles/ag-grid.css";
 import "../node_modules/ag-grid/dist/styles/ag-theme-balham.css";
+import axios from 'axios'
+
 
 
 // const globalConfig = requirexx('./config')
 // Vue.use(ElementUI, { locale })
+//Vue.prototype.$ajax = axios
+
+import VueAxios from 'vue-axios'
+
+Vue.use(VueAxios, axios)
+
+axios.defaults.headers = {
+  'Accept': 'application/json',
+  'Content-Type': 'application/json'
+};
 
 Vue.use(ElementUI, {
   size: 'medium', // set element-ui default size

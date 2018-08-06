@@ -29,9 +29,40 @@ const user = {
     // SET_AVATAR: (state, avatar) => {
     //   state.avatar = avatar
     // },
-    // SET_MENUS: (state, menuList) => {
-    //   state.menuList = menuList
-    // },
+    /* SET_MENUS: (state, menuList) => {
+       state.menuList = [{
+         pid: null,
+         id: 1,
+         path: "/dashboard",
+         redirect: null,
+         name: "pcManage",
+         hidden: false,
+         meta: {
+           title: "Home",
+           icon: "table",
+           privilege: null,
+           pid: -1,
+           sort: 99
+         },
+         children: [{
+           pid: null,
+           id: 2,
+           path: "/index",
+           redirect: null,
+           name: "requisition",
+           hidden: false,
+           meta: {
+             title: "demo",
+             icon: "table",
+             privilege: null,
+             pid: 1,
+             sort: 95
+           },
+           children: [],
+           sort: 95
+         }]
+       }]
+     },*/
     SET_REAL_NAME: (state, real_name) => {
       state.real_name = real_name
     },
@@ -39,7 +70,8 @@ const user = {
       state.company_id = company_id
     },
     SET_PRIVILEGES: (state, privileges) => {
-      state.privileges = privileges
+      console.info("SET_PRIVILEGES")
+      state.privileges = [];//privileges
     },
     SET_BUTTONS: (state, buttons) =>{
       state.buttons = buttons
@@ -54,21 +86,24 @@ const user = {
      *  3.处理response
      **/
     Login({ commit }, userInfo) {
+      console.info("-=-=-= us in")
+      console.info("-=-=-= us in>>"+JSON.stringify(userInfo))
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
         //TODO pwd加密
         login(username, userInfo.password).then(response => {
+          console.info("login respon:"+JSON.stringify(response))
           const data = response.data
           setToken(data.token)
           commit('SET_TOKEN', data.token)
           // commit('SET_UID', data.id)
-          setUid(data.id)
-          commit('SET_UID', setUid(data.id))
-          commit('SET_NAME', username)
+          //setUid(data.id)
+          //commit('SET_UID', setUid(data.id))
+         // commit('SET_NAME', username)
           // commit('SET_AVATAR', data.avatar)
-          // commit('SET_MENUS', data.menuList)
-          commit('SET_REAL_NAME', data.real_name)
-          commit('SET_COMPANY_ID', data.company_id)
+           //commit('SET_MENUS', data.menuList)
+          //commit('SET_REAL_NAME', data.real_name)
+          //commit('SET_COMPANY_ID', data.company_id)
           // commit('SET_PRIVILEGES', data.privileges)
           // let buttons = []
           // if(data.privileges){
@@ -88,6 +123,7 @@ const user = {
 
     // 获取用户信息
     GetInfo({ commit, state }) {
+      console.info("GetInfo")
       return new Promise((resolve, reject) => {
         console.log('state.uid')
         console.log(getUid())

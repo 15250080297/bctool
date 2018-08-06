@@ -7,6 +7,9 @@ import {getToken} from '@/utils/auth'
 const service = axios.create({
   baseURL: process.env.BASE_API, // api的base_url
   timeout: 50000000, // 请求超时时间
+  Accept:'application/json',
+  ContentType: 'application/json'
+
 })
 let loadingInstance;
 // request拦截器
@@ -15,14 +18,16 @@ service.interceptors.request.use(config => {
   loadingInstance = Loading.service({fullscreen: true});
 
   if (getToken()) {
-    console.info("getToken ok")
+    console.info("getToken ok  >>"+ getToken())
 
     config.headers['token'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
   }
-  config.headers['Access-Control-Allow-Origin'] = "*";
-  config.headers['Access-Control-Allow-Headers'] = "Content-Type,Content-Length, Authorization, Accept,X-Requested-With";
-  config.headers['Access-Control-Allow-Methods'] = "PUT,POST,GET,DELETE,OPTIONS";
-  console.info("config:" + JSON.stringify(config))
+  let data = config.data;
+  let key = Object.keys(data);
+  // 重写data，由{"name":"name","password":"password"} 改为 name=name&password=password
+  config.data = encodeURI(key.map(name => `${name}=${data[name]}`).join('&')) // 设置Content-Type
+  config.headers = { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' }
+
   return config
 }, error => {
 
@@ -34,11 +39,9 @@ service.interceptors.request.use(config => {
 // respone拦截器
 service.interceptors.response.use(
   response => {
-    if (loadingInstance) {
+    if(loadingInstance){
       loadingInstance.close();
     }
-    console.info("2343453" + config);
-
 
     /**
      * code为非0是抛错 可结合自己业务进行修改
@@ -76,7 +79,7 @@ service.interceptors.response.use(
     }
   },
   error => {
-    if (loadingInstance) {
+    if(loadingInstance){
       loadingInstance.close();
     }
     console.log('err' + error)// for debug

@@ -6,7 +6,7 @@
  }*/
 
 module.exports.ApiURL = {
-  login: '/auth/login',
+  auth_login: '/auth/login',
 }
 module.exports.routerMap = {
 

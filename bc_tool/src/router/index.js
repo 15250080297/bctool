@@ -15,6 +15,9 @@ import Login from '../views/login/index'
 // TODO: meta加入权限控制
 export const constantRouterMap = [
     { path: '/login', component: () => import('@/views/login/index'), hidden: true },
+    { path: '/demo/list', component: () => import('@/views/demo/DemoList'), hidden: true },
+   // { path: '/plugins', component: () => import('@/views/layout/Layout'), hidden: true },
+    //{ path: '/dashboard/index', component: () => import('@/views/dashboard/index'), hidden: true },
    /* {
       path: '/',
       component: Layout,
@@ -39,6 +42,8 @@ export default new Router({
 
 
 export const routerParams = [
+  {name: 'plugins'},
+ // {name: 'unitMgr', component: () => import('@/views/baseInfo/unit/UnitMgr')},
   /*{name: 'plugins'},
   {name: 'unitMgr', component: () => import('@/views/baseInfo/unit/UnitMgr')},
   {name: 'purchase', component: () => import('@/views/purchase/PurchaseOrder')},
