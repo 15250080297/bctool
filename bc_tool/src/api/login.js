@@ -2,6 +2,14 @@ import request from '@/utils/request'
 import config from '@/config'
 
 export function login(username, password) {
+ /* return request({
+    url: config.ApiURL.auth_login,
+    method: 'post',
+    data: {
+      'name': username,
+      'pwd': password
+    }
+  })*/
   console.info("login in ")
   var obj={
     user_name:username,
@@ -14,19 +22,16 @@ export function login(username, password) {
       param: JSON.stringify(obj),
     }
   })
-/*  return Vue.axios({
-    method:'post',
-    url:'http://127.0.0.1:6969/bc_mvc/api/mvc/post',
-    data:{},
-    headers:{"Content_type":"application/json","Access-Token":"39847593874923478345"}
-
-  });*/
 }
 
 export function getInfo() {
+  console.info("getInfo api in")
   return request({
-    url: config.ApiURL.auth_getInfo,
-    method: 'post'
+    method: 'post',
+    data: {
+      action: config.ApiURL.getInfo,
+      param: '',
+    }
   })
 }
 

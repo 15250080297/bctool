@@ -1,12 +1,97 @@
 /**
  * @return {string}
  */
-/* module.exports.Domain = function() {
-     return 'http://localhost:8008/2/tool'
- }*/
+// module.exports.Domain = function() {
+//   if (process.env.NODE_ENV === 'development') {
+//     return 'http://localhost:8008/sc-api'
+//   } else {
+//     return 'https://api.xluomao.com/supply-chain/api'
+//   }
+// }
 
 module.exports.ApiURL = {
   auth_login: '/auth/login',
+  getInfo: 'GetInfo',
+  /*login: '/account/login',
+  requistionorder_findpage: '/requistionorder/findpage',
+  requistionorder_updateone: '/requistionorder/updateone',
+  requistionorder_deleteone: '/requistionorder/deleteoone',
+  requistionorder_insertone: '/requistionorder/insertone',
+  requistionorder_finddetail: '/requistionorder/finddetail',
+  requistionorder_producepdf: '/requistionorder/producepdf',
+  requistionorder_couldupdate: '/requistionorder/couldupdate',
+  sales_saveone: '/sales/saveone',
+  sales_findpage: '/sales/findpage',
+  sales_finddetail: '/sales/finddetail',
+  settlement_saveone: '/settlement/saveone',
+  settlement_findpage: '/settlement/findpage',
+  settlement_finddetail: '/settlement/finddetail',
+  settlement_delsettlement: '/settlement/delsettlement',
+  sales_checkreference: '/sales/checkreference',
+  sales_updatesalsorder: '/sales/updatesalsorder',
+  sales_delsalesorder: '/sales/delsalesorder',
+  sales_importsalesorder: '/sales/importsalesorder',
+  purchaseOrderList: '/purchaseOrder/list',
+  purchaseOrderDetailList: '/purchaseOrder/detailList',
+  purchaseOrderSave: '/purchaseOrder/save',
+  invoice_list: '/invoice/list',
+  invoice_detail_list: '/invoice/detailList',
+  invoice_save: '/invoice/save',
+  invoice_update: '/invoice/update',
+  invoice_delete: '/invoice/delete',
+  database_allcategory: '/database/allcategory',
+  database_getproduct: '/database/getproduct',
+  database_findproduct: '/database/findproduct',
+  database_getallchannel: '/database/getallchannel',
+  purchaseOrderUpdate: '/purchaseOrder/update',
+  purchaseOrderDelete: '/purchaseOrder/delete',
+  loadCanProRefund: '/purchaseOrder/loadCanProRefund',
+  sendApproval: '/approval/sendApproval',
+  approvalLogList: '/approval/approvalLogList',
+  approvalDetailList: '/approval/approvalDetailList',
+  abandonApproval: '/approval/abandonApproval',
+  doApproval: '/approval/doApproval',
+  loadApprovalButtons: '/approval/loadApprovalButtons',
+  databaseallcategory: '/database/allcategory',
+  databasegetproduct: '/database/getproduct',
+  database_unit_list: '/database/unit/list',
+  database_unit_update: '/database/unit/update',
+  database_getsupplierbyid: '/database/getsupplierbyid',
+  database_getallsupplier: '/database/getallsupplier',
+  database_getwarehouse: '/database/getwarehouse',
+  auth_login: '/account/login',
+  auth_getInfo: '/user/info',
+  auth_logout: '/account/logout',
+  voucher_getAccountList: '/ncdata/getaccount',
+  voucher_getAuxiliaryList:'/ncdata/getauxiliary',
+  voucher_getCashFlow:'/ncdata/getcashflow',
+  voucher_getVoucherList:'/voucher/voucherlist',
+  voucher_getVoucherDetail:'/voucher/voucherdetail',
+  voucher_addVoucher: '/voucher/savevoucher',
+  voucher_beforeAddVoucher: '/voucher/beforesavevoucher',
+  voucher_updatevoucher:'/voucher/updatevoucher',
+  warehouse_goods_selectAll:'/warehouse/selectAll',
+  warehouse_goods_update:'/warehouse/update',
+  voucher_beforeCashFlow:'/ncdata/beforeCashFlow',
+  storage_purchaseGetList:'/logistics/getList',
+  storage_purchaseGetDetail:'/logistics/getDetail',
+  storage_purchaseModify:'/purchaseStorage/modify',
+  storage_purchaseDelete:'/purchaseStorage/delete',
+  storage_purchaseSign:'/purchaseStorage/sign',
+  storage_purchaseSave:'/logistics/createcg',
+  storage_transfer_list:'/transfer/transferList',
+  storage_transfer_detail:'/transfer/transferDetail',
+  storage_transfer_create_zk:'/transfer/createzk',
+  storage_transfer_get_update_zk:'/transfer/getupdatezkdetail',
+  purchase_warehousing_printing:'/printing/purchaseWarehousingPrinting',
+  XTC_transGetList:'/storeXTC/getList',
+  XTC_transGetDetail:'/storeXTC/getDetailList',
+  XTC_saveXTC:'/storeXTC/save',
+  XTC_modifyXTC:'/storeXTC/modify',
+  XTC_getBOMList:'/storeXTC/getBOMList',
+  XTC_getBOMDetailList:'/storeXTC/getBOMDetailList',
+  XTC_doSign:'/storeXTC/doSign',
+  XTC_getProductOfWarehouse:'/storeXTC/getProductOfWarehouse'*/
 }
 module.exports.routerMap = {
 

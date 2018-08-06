@@ -37,7 +37,6 @@ function filterAsyncRouter(asyncRouterMap, privileges) {
  * @param menuList
  */
 function generateLeftMenuRoutes(menuList){
-  console.info("generateLeftMenuRoutes")
   for (let i = 0; i < menuList.length; i++) {
     let menu = menuList[i]
     menu.component=Layout
@@ -105,7 +104,6 @@ const permission = {
   },
   actions: {
     GenerateRoutes({ commit }, data) {
-      console.info("GenerateRoutes  in:"+data);
       return new Promise(resolve => {
         const { privileges,menuList,routerNames } = data
         // const { menuList } = data.menuList

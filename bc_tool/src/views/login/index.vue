@@ -3,7 +3,7 @@
     <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
       <h3 class="title">
         <span class="logo"></span>
-        <span class="txt">Beecloud管理系统</span>
+        <span class="txt">Beecloud后台管理</span>
       </h3>
       <el-form-item prop="username">
         <span class="svg-container svg-container_login">
@@ -34,12 +34,11 @@
 import { isvalidUsername } from '@/utils/validate'
 // const auth = require('../../utils/auth');
 // const globalConfig = require('../../config');
-//import { login} from '@/api/login'
-
 
 export default {
   name: 'login',
   data() {
+    // TODO 登陆验证规则
     const validateUsername = (rule, value, callback) => {
       if (!isvalidUsername(value)) {
         callback(new Error('请输入正确的用户名'))
@@ -81,7 +80,6 @@ export default {
           this.loading = true;
           this.$store.dispatch('Login', this.loginForm).then(() => {
             this.loading = false
-            console.info("success login")
             this.$router.push({ path: '/plugins' })
           }).catch(() => {
             this.loading = false
@@ -93,7 +91,75 @@ export default {
       })
     }
 
-
+    /**
+     * 登陆操作
+     *  1.validation
+     *  2.ajax请求
+     *  3.localStorage存储response
+     **/
+    // login: function () {
+    //   let valid = true;
+    //   let msgs = [];
+    //
+    //   if (!_checkisNotEmpty(this.accountName)) {
+    //     valid = false;
+    //     msgs.push(globalConfig.Messages.loginNameMandatory);
+    //   }
+    //   if (!_checkisNotEmpty(this.pwd)) {
+    //     valid = false;
+    //     msgs.push(globalConfig.Messages.pwdMandatory);
+    //   }
+    //
+    //   if (valid) {
+    //     this.$ajax(globalConfig.ApiURL.login,
+    //       {
+    //         accountName: this.accountName,
+    //         pwd: md5(this.pwd),
+    //         token: auth.getToken()
+    //       },
+    //       true,
+    //       (res) => {
+    //         localStorage.rememberAccount=this.accountName;
+    //         localStorage.rememberPwd=this.pwd;
+    //         this.initLogin(res.data);
+    //
+    //
+    //       }, false);
+    //     //this.loadAuthCode();
+    //   } else {
+    //     this.$showErrorMessage(msgs.join(' , '));
+    //   }
+    // },
+    //
+    // initLogin:function(data){
+    //   localStorage.user = JSON.stringify({
+    //                       accountName:data.accountName,
+    //                       realName:data.realName,
+    //                       avatar:data.avatar,
+    //                       _i:data.id,
+    //                       _pi:data.pid
+    //                   });
+    //   localStorage._rk = data.roleKey;
+    //   localStorage._rt = data.roleType;
+    //   localStorage._at = data.token;
+    //   localStorage._ai = data.id;
+    //
+    //   localStorage._dm = data.domain;
+    //   localStorage._l =null;
+    //   localStorage._pk = null;
+    //
+    //   localStorage._l = JSON.stringify(data.menus);
+    //   localStorage._pk = JSON.stringify(data.privileges);
+    //
+    //   // ipcRenderer.send('set-menu-data',localStorage._at,data.id+"",data.roleKey);
+    //
+    //   if(data.menus.length>0&&data.menus[0].children.length>0) {
+    //     localStorage._sp = data.menus[0].children[0].id;
+    //     localStorage._sm = data.menus[0].name+"/"+data.menus[0].children[0].name;
+    //     localStorage._su = data.menus[0].children[0].url;
+    //   }
+    //
+    // }
 
   }
 }

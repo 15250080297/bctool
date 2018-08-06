@@ -16,7 +16,6 @@ import storageTransfer from './modules/storage-transfer'
 import settlement from './modules/settlement'
 import conversion from './modules/conversion'
 
-
 Vue.use(Vuex)
 
 const store = new Vuex.Store({

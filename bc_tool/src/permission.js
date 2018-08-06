@@ -78,6 +78,5 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach(() => {
-  console.info("afterEach")
   NProgress.done() // 结束Progress
 })

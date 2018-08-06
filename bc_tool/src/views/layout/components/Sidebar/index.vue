@@ -1,5 +1,4 @@
 <template>
-
   <el-scrollbar wrapClass="scrollbar-wrapper">
     <el-menu
       mode="vertical"
@@ -26,7 +25,6 @@ export default {
       'sidebar'
     ]),
     routes() {
-      console.info("scrollbar in")
       console.log(this.$router.options.routes)
       return this.$router.options.routes
     },
