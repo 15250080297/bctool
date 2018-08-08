@@ -23,6 +23,8 @@ import "../node_modules/ag-grid/dist/styles/ag-theme-balham.css";
 // const globalConfig = requirexx('./config')
 // Vue.use(ElementUI, { locale })
 
+
+
 Vue.use(ElementUI, {
   size: 'medium', // set element-ui default size
   i18n: (key, value) => i18n.t(key, value)
@@ -59,6 +61,33 @@ Vue.use({
       }else{
         return false;
       }
+    }
+
+    Vue.prototype.$successMsg =function (msg) {
+      this.$message({
+        message: msg,
+        type: 'success'
+      })
+    }
+
+    Vue.prototype.$errorMsg =function (msg) {
+      this.$message({
+        message: msg,
+        type: 'error'
+      })
+    }
+
+    Vue.prototype.$waringMsg =function (msg) {
+      this.$message({
+        message: msg,
+        type: 'warning'
+      })
+    }
+
+    Vue.prototype.$checkisNotEmpty =function (src) {
+      if(!src||src.length==0)
+        return false;
+      return true;
     }
 
   }

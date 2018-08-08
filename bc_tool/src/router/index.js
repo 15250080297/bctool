@@ -82,21 +82,10 @@ export default new Router({
 
 export const routerParams = [
   {name: 'plugins'},
-  {name: 'unitMgr', component: () => import('@/views/baseInfo/unit/UnitMgr')},
-  {name: 'purchase', component: () => import('@/views/purchase/PurchaseOrder')},
-  {name: 'prRefund', component: () => import('@/views/prRefund/PrRefundOrder')},
-  {name: 'requisition', component: () => import('@/views/requistion/RequistionOrder')},
   {name: 'voucher', redirect: '/voucher/main'},
-  {name: 'vouchermain',  component: () => import('@/views/voucher/VoucherList')},
-  {name: 'storagePurchase', component: () => import('@/views/storage/PurchaseInList')},
-  {name: 'purchaseInvoice', component: () => import('@/views/invoice/Invoice')},
   {name: 'demolist', component: () => import('@/views/demo/DemoList')},
   {name: 'notfound', redirect: '/404'},
-  {name: 'salesorder',  component: () => import('@/views/sales/SalesOrder')},
-  {name: 'storageTransfer',  component: () => import('@/views/storage/storage-transfer/storage-transfer-list')},
-  {name: 'warehouse',  component: () => import ('@/views/baseInfo/goods/warehouse')},
-  {name: 'salesorder',  component: () => import('@/views/sales/SalesOrder')},
-  {name: 'pcSettle',  component: () => import('@/views/settlement/Settlement')},
-  {name: 'storeXTC',component:() => import('@/views/conversion/ConversionList')},
-  {name: 'salesInvoice',component:() => import('@/views/salesInvoice/SalesInvoice')}
+  {name: 'luceneMgr', component: () => import('@/views/tool/lucene/lucene')},
+
+
 ]

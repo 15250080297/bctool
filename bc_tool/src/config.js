@@ -11,7 +11,8 @@
 
 module.exports.ApiURL = {
   auth_login: '/auth/login',
-  getInfo: 'GetInfo',
+  getInfo: 'GET_LOGIN_AUTHINFO',
+  LUCENE_RENEW: '/lucene/renew',
   /*login: '/account/login',
   requistionorder_findpage: '/requistionorder/findpage',
   requistionorder_updateone: '/requistionorder/updateone',

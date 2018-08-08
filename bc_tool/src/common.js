@@ -23,6 +23,10 @@ _checkCorrectUserName = function (checkVal) {
   return true;
 }
 
+_showSuccessMsg=function (msg) {
+    this.$message(msg);
+}
+
 
 
 
