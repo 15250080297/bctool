@@ -13,6 +13,7 @@ module.exports.ApiURL = {
   auth_login: '/auth/login',
   getInfo: 'GET_LOGIN_AUTHINFO',
   LUCENE_RENEW: '/lucene/renew',
+  BUSINESS_BALANCE_LIST:'/bussiness/list'
   /*login: '/account/login',
   requistionorder_findpage: '/requistionorder/findpage',
   requistionorder_updateone: '/requistionorder/updateone',

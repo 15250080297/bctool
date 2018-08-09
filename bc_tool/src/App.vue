@@ -154,5 +154,16 @@ export default {
   @media screen and (max-width: 300px){
 
   }
+.text-align-right{
+  text-align:right;
+  margin-right: 15px;
+}
+
+  .text-align-center{
+    text-align:center;
+  }
+
+
+
 
 </style>

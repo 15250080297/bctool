@@ -128,7 +128,7 @@
               this.detailRowData.push({'key':key,'value':map[key]})
             }
             this.$successMsg('更新成功');
-          } 
+          }
         });
 
         this.isSubmit = false;

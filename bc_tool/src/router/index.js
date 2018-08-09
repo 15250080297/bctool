@@ -86,6 +86,7 @@ export const routerParams = [
   {name: 'demolist', component: () => import('@/views/demo/DemoList')},
   {name: 'notfound', redirect: '/404'},
   {name: 'luceneMgr', component: () => import('@/views/tool/lucene/lucene')},
+  {name: 'balancelist', component: () => import('@/views/balance/business/BalanceList')},
 
 
 ]
