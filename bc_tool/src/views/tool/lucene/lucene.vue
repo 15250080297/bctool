@@ -90,6 +90,7 @@
         detailRowData:[]
       }
     },
+
     methods: {
       onSubmit() {
         if (this.isSubmit)

@@ -163,6 +163,10 @@ export default {
     text-align:center;
   }
 
+  .red{
+    color:red;
+  }
+
 
 
 

@@ -15,6 +15,7 @@ import storage from './modules/storage'
 import storageTransfer from './modules/storage-transfer'
 import settlement from './modules/settlement'
 import conversion from './modules/conversion'
+import duty from './modules/duty'
 
 Vue.use(Vuex)
 
@@ -33,7 +34,8 @@ const store = new Vuex.Store({
     storage,
     storageTransfer,
     settlement,
-    conversion
+    conversion,
+    duty
   },
   getters
 })

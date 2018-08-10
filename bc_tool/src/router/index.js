@@ -87,6 +87,8 @@ export const routerParams = [
   {name: 'notfound', redirect: '/404'},
   {name: 'luceneMgr', component: () => import('@/views/tool/lucene/lucene')},
   {name: 'balancelist', component: () => import('@/views/balance/business/BalanceList')},
+  {name: 'dutyMgr', component: () => import('@/views/tool/duty/Duty')},
+  //{name: 'dutyMgr', component: () => import('@/views/requistion/RequistionOrder')},
 
 
 ]
