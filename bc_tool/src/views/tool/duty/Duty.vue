@@ -47,7 +47,7 @@
       <!--列表 -->
       <SCTable :columnDefs="columnDefs"
                :rowData="rowData"
-               :editable="false"
+               :editable="true"
                :showTool="false"
                :singleTable="true"
                :currentPage="searchParams.page"

@@ -14,6 +14,10 @@ module.exports.ApiURL = {
   getInfo: 'GET_LOGIN_AUTHINFO',
   LUCENE_RENEW: '/lucene/renew',
   BUSINESS_BALANCE_LIST:'/bussiness/list',
+  BUSINESS_BALANCE_DEDUCT:'/bussiness/deduct',
+  BUSINESS_BALANCE_DEDUCTLIST:'/bussiness/deductlist',
+  BUSINESS_BALANCE_DEDUCTCANCEL:'/bussiness/deductcancel',
+  BUSINESS_BALANCE_DRAW:'/bussiness/draw',
   DUTY_LIST:'/duty/list',
   DUTY_ACTION:'/duty/action',
 }

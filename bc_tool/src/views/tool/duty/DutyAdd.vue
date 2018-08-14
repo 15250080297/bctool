@@ -79,8 +79,8 @@
       return {
         dutyBean: {
           action: '',
-          email:'',
-          appid:'',
+          email:'zhihaoq@beecloud.cn',
+          appid:'afae2a33-c9cb-4139-88c9-af5c1df472e1',
           startTime:null,
           endTime:null
         },
@@ -112,7 +112,10 @@
     methods: {
 
       cancelModify: function () {
-          this.dutyBean = {};
+          this.dutyBean = {
+            email:'zhihaoq@beecloud.cn',
+            appid:'afae2a33-c9cb-4139-88c9-af5c1df472e1'
+          };
           this.$store.dispatch('HideAddDuty').then(() => {
           });
       },
@@ -138,7 +141,10 @@
         action(this.dutyBean.action,this.dutyBean.email,this.dutyBean.appid,st,et).then((response) => {
           if (response.code == 0) {
             this.$successMsg('创建成功');
-            this.dutyBean={}
+            this.dutyBean={
+              email:'zhihaoq@beecloud.cn',
+              appid:'afae2a33-c9cb-4139-88c9-af5c1df472e1'
+            }
             this.$store.dispatch('HideAddDuty').then(()=>{});
             this.$root.$emit('search:dutySearcher');
           }

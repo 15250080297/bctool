@@ -19,6 +19,8 @@ import '@/permission' // permission control
 import "../node_modules/ag-grid/dist/styles/ag-grid.css";
 import "../node_modules/ag-grid/dist/styles/ag-theme-balham.css";
 
+var moment = require('moment');
+
 
 // const globalConfig = requirexx('./config')
 // Vue.use(ElementUI, { locale })
@@ -63,6 +65,7 @@ Vue.use({
       }
     }
 
+
     Vue.prototype.$successMsg =function (msg) {
       this.$message({
         message: msg,
@@ -88,6 +91,20 @@ Vue.use({
       if(!src||src.length==0)
         return false;
       return true;
+    }
+
+    Vue.prototype.$money_column =function (row, column) {
+      var amount=row[column.property];
+      return "¥"+amount/100.00;
+    }
+
+    Vue.prototype.$money =function (amount) {
+      return "¥"+amount/100.00;
+    }
+
+    Vue.prototype.$timeFormat =function (row, column) {
+      var time=row[column.property];
+      return moment(time).format('YYYY-MM-DD HH:mm:ss');
     }
 
   }
