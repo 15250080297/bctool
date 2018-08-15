@@ -94,7 +94,6 @@ const user = {
         console.log(getUid())
         getInfo(uid).then(response => {
           const data = response.data;
-          console.info(">>>> info json "+JSON.stringify(data))
           // if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
           //   commit('SET_ROLES', data.roles)
           // } else {

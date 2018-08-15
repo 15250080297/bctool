@@ -99,6 +99,8 @@
           },
           {headerName: '邮箱', field: 'email'},
           {headerName: 'AppId', field: 'appId'},
+          {headerName: 'CHANNEL', field: 'channel'},
+          {headerName: 'SUB_CHANNEL', field: 'subChannel'},
           {headerName: '起始时间', field: 'dutyStartTime',cellRenderer: function(data) {
               return moment(data.value).format('YYYY-MM-DD HH:mm:ss');
           }},

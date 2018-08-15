@@ -48,6 +48,23 @@
               </el-col>
             </el-row>
 
+
+            <el-row :gutter="20">
+              <el-col :span="8">
+                <el-form-item label="CHANNEL">
+                  <el-input v-model="dutyBean.channel"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+
+            <el-row :gutter="20">
+              <el-col :span="8">
+                <el-form-item label="SUB_CHANNEL">
+                  <el-input v-model="dutyBean.subChannel"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+
           </el-form>
         </SCContent>
       </SCContent>
@@ -81,6 +98,8 @@
           action: '',
           email:'zhihaoq@beecloud.cn',
           appid:'afae2a33-c9cb-4139-88c9-af5c1df472e1',
+          channel:'',
+          subChannel:'',
           startTime:null,
           endTime:null
         },
@@ -138,7 +157,7 @@
 
         this.isSubmit = true;
 
-        action(this.dutyBean.action,this.dutyBean.email,this.dutyBean.appid,st,et).then((response) => {
+        action(this.dutyBean.action,this.dutyBean.email,this.dutyBean.appid,this.dutyBean.channel,this.dutyBean.subChannel,st,et).then((response) => {
           if (response.code == 0) {
             this.$successMsg('创建成功');
             this.dutyBean={

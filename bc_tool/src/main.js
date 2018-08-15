@@ -107,6 +107,14 @@ Vue.use({
       return moment(time).format('YYYY-MM-DD HH:mm:ss');
     }
 
+    Vue.prototype.$tableHeight =function () {
+      var h=500
+      console.info("123");
+      //var h=document.documentElement.clientHeight;
+      console.info(h);
+      return h;
+    }
+
   }
 
 });

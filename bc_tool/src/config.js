@@ -20,6 +20,10 @@ module.exports.ApiURL = {
   BUSINESS_BALANCE_DRAW:'/bussiness/draw',
   DUTY_LIST:'/duty/list',
   DUTY_ACTION:'/duty/action',
+  COMMON_APPS:'/common/apps',
+  RECONCILIATION_FILES:'RECONCILITION_FILES',
+  RECONCILIATION_DELFILE:'RECONCILITION_DELFILE',
+
 }
 module.exports.routerMap = {
 

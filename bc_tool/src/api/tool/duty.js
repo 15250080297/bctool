@@ -13,11 +13,13 @@ export function search(param) {
 }
 
 
-export function action(action,email,appid,startTime,endTime) {
+export function action(action,email,appid,channel,subChannel,startTime,endTime) {
   var param={
     action:action,
     email:email,
     appid:appid,
+    channel:channel,
+    sub_channel:subChannel,
     start_time:startTime,
     end_time:endTime
   }

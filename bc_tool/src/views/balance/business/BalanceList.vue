@@ -5,7 +5,7 @@
     <SCContent>
 
 
-      <el-table :data="rowData" stripe border style="width: 100%" height="666" show-summary
+      <el-table :data="rowData" stripe border style="width: 100%" :height=tableHeight show-summary
                 :summary-method="getSummaries">
         <el-table-column fixed prop="merchantName" label="企业名称">
         </el-table-column>
@@ -150,6 +150,7 @@
         canWithdrawAmount: 0,
         withdrawAmount: 0,
         withdrawPwd: '',
+        tableHeight:document.documentElement.clientHeight-100
 
       }
     },
@@ -303,6 +304,9 @@
           }
         });
 
+      },
+      testh:function () {
+        return 333;
       }
     }
 
