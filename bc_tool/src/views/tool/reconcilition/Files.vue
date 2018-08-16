@@ -43,17 +43,30 @@
     <SCContent>
 
       <el-table :data="files" stripe border style="width: 100%" :height=tableHeight>
-        <el-table-column fixed prop="flagName" label="类型"></el-table-column>
+        <el-table-column fixed prop="flag" label="类型">
+          <template slot-scope="scope">
+            <span v-if="scope.row.flag=='DAY'" >日对账单</span>
+            <span v-if="scope.row.flag!='DAY'" >月对账单</span>
+          </template>
+        </el-table-column>
         <el-table-column fixed prop="fileName" label="日期"></el-table-column>
         <el-table-column prop="appName" label="应用名称"></el-table-column>
+        <el-table-column prop="status" label="状态">
+          <template slot-scope="scope">
+            <span v-if="scope.row.status=='I'" class="red">不存在</span>
+            <span v-if="scope.row.status!='I'" class="green">存在</span>
+          </template>
+
+        </el-table-column>
 
         <el-table-column
           fixed="right"
           label="操作"
-          width="90">
+          width="190">
           <template slot-scope="scope">
-            <el-button @click="downFile(scope.row.downloadUrl)" type="text" size="small">下载对账单</el-button>
-            <el-button @click="delFile(scope.row.fileName,scope.row.appid)" type="text" size="small">删除</el-button>
+            <el-button v-if="scope.row.status!='I'" @click="downFile(scope.row.downloadUrl)" type="text" size="small">下载对账单</el-button>
+            <el-button v-if="scope.row.status!='I'" @click="delFile(scope.row.fileName,scope.row.appid)" type="text" size="small">删除</el-button>
+            <el-button v-if="scope.row.status=='I'" @click="generateFile(scope.row.fileName,scope.row.appid,scope.row.flag)" type="text" size="small" class="green">生成对账单</el-button>
            <!-- <el-button @click="showFreeze(scope.row.email)" type="text" size="small">冻结</el-button>
             <el-button @click="showWithdraw(scope.row.email,scope.row.bcUsableAmount)" type="text" size="small">提款
             </el-button>-->
@@ -73,7 +86,7 @@
   import SCContent from '@/components/SCContent'
   import SCSearch from '@/components/SCSearch'
   import {appsApi} from '@/api/common/common'
-  import {filesApi,delApi} from '@/api/tool/renconcilition'
+  import {filesApi,delApi,generateApi} from '@/api/tool/renconcilition'
 
 
   const globalConfig = require('../../../config');
@@ -163,8 +176,25 @@
 
         });
 
+      },
+      generateFile:function (key,appid,flag) {
+        this.$confirm('你确定生成【' + key + '】对账文件吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          generateApi(key,appid,flag).then(resp => {
+            if (resp.code == 0) {
+              this.$successMsg('已提交生成,请稍等片刻刷新查看');
+            }
+          });
+
+        }).catch(() => {
+
+        });
+
       }
-    }
+    },
 
   }
 </script>

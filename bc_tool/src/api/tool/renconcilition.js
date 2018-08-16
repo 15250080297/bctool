@@ -21,9 +21,6 @@ export function filesApi(email, appid,flag,startTime,endTime) {
 
 
 export function delApi(delKey,appid) {
-  alert(delKey)
-  alert(appid)
-
   var obj={
     appid:appid,
     delkey:delKey,
@@ -32,6 +29,21 @@ export function delApi(delKey,appid) {
     method: 'post',
     data: {
       action: config.ApiURL.RECONCILIATION_DELFILE,
+      param: JSON.stringify(obj),
+    }
+  })
+}
+
+export function generateApi(key,appid,flag) {
+  var obj={
+    appid:appid,
+    key:key,
+    flag:flag,
+  };
+  return request({
+    method: 'post',
+    data: {
+      action: config.ApiURL.RECONCILIATION_GENERATE,
       param: JSON.stringify(obj),
     }
   })

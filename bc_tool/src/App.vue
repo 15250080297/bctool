@@ -166,6 +166,10 @@ export default {
   .red{
     color:red;
   }
+
+  .green{
+    color:green;
+  }
   .el-table__body{
     table-layout:auto !important;
   }
