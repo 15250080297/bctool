@@ -106,6 +106,13 @@ Vue.use({
       var time=row[column.property];
       return moment(time).format('YYYY-MM-DD HH:mm:ss');
     }
+    Vue.prototype.$timeStampFormat =function (time) {
+      return moment(time).format('YYYY-MM-DD HH:mm:ss');
+    }
+
+    Vue.prototype.$dateFormat =function (time,format) {
+      return moment(time).format(format);
+    }
 
     Vue.prototype.$tableHeight =function () {
       var h=500

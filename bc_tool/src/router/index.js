@@ -89,6 +89,7 @@ export const routerParams = [
   {name: 'balancelist', component: () => import('@/views/balance/business/BalanceList')},
   {name: 'dutyMgr', component: () => import('@/views/tool/duty/Duty')},
   {name: 'reconcilitionFilesMgr', component: () => import('@/views/tool/reconcilition/Files')},
+  {name: 'spayMgr', component: () => import('@/views/report/spay/spay')},
 
 
 ]
