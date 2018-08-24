@@ -1,14 +1,16 @@
 import request from '@/utils/request'
 import config from '@/config'
 
-export function listApi(email, appid,duration,startTime,endTime) {
+export function listApi(email, appid,duration,startTime,endTime,st,cpday) {
 
   var obj={
     email:email,
     appid:appid,
     duration:duration,
     start_time:startTime,
-    end_time:endTime
+    end_time:endTime,
+    st:st,
+    cpday:cpday
   };
   return request({
     method: 'post',

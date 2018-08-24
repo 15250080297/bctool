@@ -16,6 +16,7 @@
     "ag-grid": "^18.0.1",
     "ag-grid-vue": "^18.0.0",
     "axios": "0.17.1",
+    "echarts": "^4.1.0",
     "element-ui": "2.3.4",
     "handsontable": "^4.0.0",
     "js-cookie": "2.2.0",

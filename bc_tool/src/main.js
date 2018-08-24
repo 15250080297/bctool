@@ -21,6 +21,10 @@ import "../node_modules/ag-grid/dist/styles/ag-theme-balham.css";
 
 var moment = require('moment');
 
+import echarts from 'echarts'
+
+Vue.prototype.$echarts = echarts
+
 
 // const globalConfig = requirexx('./config')
 // Vue.use(ElementUI, { locale })

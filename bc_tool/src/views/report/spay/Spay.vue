@@ -7,6 +7,7 @@
       <el-button class="action-item" type="primary" @click="showSearchForm">查询</el-button>
       <el-button class="action-item" type="primary" @click="search">刷新</el-button>
       <el-button class="action-item" type="primary" @click="showAddScript">新增</el-button>
+      <el-button class="action-item" type="primary" @click="changeShowType">切换{{showType}}</el-button>
     </ActionBar>
 
     <!-- 查询 -->
@@ -42,7 +43,7 @@
 
     <SCContent>
 
-      <el-table :data="rows" stripe border style="width: 100%" :height=tableHeight>
+      <el-table v-if="showType=='L'" :data="rows" stripe border style="width: 100%" :height=tableHeight>
         <el-table-column prop="nick_name" label="应用名称"></el-table-column>
         <el-table-column prop="flag" label="类型">
           <template slot-scope="scope">
@@ -64,6 +65,15 @@
         </el-table-column>
       </el-table>
 
+      <div v-if="showType=='V'" style="margin-left: 30%">
+        <el-radio v-model="cpday" label="1" border v-on:change="search">同比昨天</el-radio>
+        <el-radio v-model="cpday" label="7" border v-on:change="search">同比7天</el-radio>
+        <el-radio v-model="cpday" label="30" border v-on:change="search">同比上月</el-radio>
+      </div>
+
+      <div v-if="showType=='V'" id="spay_chart" class="charts" style="width: 100%;height: 500px">
+      </div>
+
 
       <el-dialog title="详情" :visible.sync="dialogDetail" width="66%">
 
@@ -79,9 +89,9 @@
         <el-form :model="spayBean">
           <el-row :gutter="20">
             <el-col :span="14">
-          <el-form-item label="邮箱" :label-width="formLabelWidth">
-            <el-input v-model="spayBean.email"  @blur.prevent="commonApps(2)" ></el-input>
-          </el-form-item>
+              <el-form-item label="邮箱" :label-width="formLabelWidth">
+                <el-input v-model="spayBean.email" @blur.prevent="commonApps(2)"></el-input>
+              </el-form-item>
             </el-col>
           </el-row>
 
@@ -126,6 +136,7 @@
   import SCSearch from '@/components/SCSearch'
   import {appsApi} from '@/api/common/common'
   import {listApi, resetApi} from '@/api/report/spay'
+  import echarts from 'echarts';
 
 
   const globalConfig = require('../../../config');
@@ -154,6 +165,11 @@
           email: 'zhihaoq@beecloud.cn',
           appid: 'afae2a33-c9cb-4139-88c9-af5c1df472e1',
         },
+        showType: 'L',//L :list  V:view
+        chart: null,
+        cpday:"7",
+        eclist:[],
+
       }
     },
     created() {
@@ -186,10 +202,15 @@
           return;
         }
 
-        listApi(this.searchParams.email, this.searchParams.appid, this.searchParams.duration, this.searchParams.startTime, this.searchParams.endTime)
+        listApi(this.searchParams.email, this.searchParams.appid, this.searchParams.duration, this.searchParams.startTime,
+          this.searchParams.endTime,this.showType,this.cpday)
           .then(resp => {
             if (resp.code == 0) {
               this.rows = resp.data.list;
+              this.eclist=resp.data.eclist;
+              if(this.showType=='V') {
+                this.loadChart();
+              }
             }
           });
 
@@ -264,7 +285,7 @@
         }
       },
       addScript: function () {
-        var st=new Date(this.spayBean.startTime).getTime();
+        var st = new Date(this.spayBean.startTime).getTime();
         resetApi(this.spayBean.email, this.spayBean.appid, this.spayBean.duration, st)
           .then(resp => {
             if (resp.code == 0) {
@@ -274,12 +295,109 @@
 
             }
           });
-      }
+      },
+      changeShowType: function () {
+        if (this.showType == 'L') {
+          this.showType = 'V';
+          this.search();
+        } else {
+          this.showType = 'L';
+        }
+      },
+      loadChart: function () {
+        var legendData=[];
+        legendData.push("成功交易金额");
+        legendData.push("成功交易手续费");
+        legendData.push("成功交易笔数");
+        var cpsrc;
+        if(1==this.cpday){
+          cpsrc="同比昨日"
+        }else if(7==this.cpday){
+          cpsrc="同比7天"
+        }else {
+          cpsrc="同比上月"
+        }
+        legendData.push(cpsrc+'成功交易金额');
+        legendData.push(cpsrc+'成功交易手续费');
+        legendData.push(cpsrc+'成功交易笔数');
+
+        var xarr=[];
+        var totalSuccessFee=[];
+        var totalChannelFee=[];
+        var totalSucctrade=[];
+        var comparedSuccessFee=[];
+        var comparedChannelFee=[];
+        var comparedSucctrade=[];
+        for (let c of this.eclist){
+          xarr.push(c.xkey);
+          totalSuccessFee.push(c.totalSuccessFee);
+          totalChannelFee.push(c.totalChannelFee);
+          totalSucctrade.push(c.totalSucctrade);
+          comparedSuccessFee.push(c.comparedSuccessFee);
+          comparedChannelFee.push(c.comparedChannelFee);
+          comparedSucctrade.push(c.comparedSucctrade);
+        }
+
+        let myChart = this.$echarts.init(document.getElementById('spay_chart'))
+
+        myChart.setOption({
+          tooltip: {
+            trigger: 'axis'
+          },
+          legend: {
+            data:legendData
+          },
+          color:['#008000','#0000FF','#00CED1','#DC143C','#A52A2A','#D2691E'],
+          xAxis: {
+            type: 'category',
+            data: xarr
+          },
+          yAxis: {
+            type: 'value'
+          },
+          series: [
+            {
+            name: '成功交易金额',
+            type: 'line',
+            data: totalSuccessFee
+            },
+            {
+              name: '成功交易手续费',
+              type: 'line',
+              data: totalChannelFee
+            },
+            {
+              name: '成功交易笔数',
+              type: 'line',
+              data: totalSucctrade
+            },
+            {
+              name: cpsrc+"成功交易金额",
+              type: 'line',
+              data: comparedSuccessFee
+            },
+            {
+              name: cpsrc+"成功交易手续费",
+              type: 'line',
+              data: comparedChannelFee
+            },
+            {
+              name: cpsrc+"成功交易笔数",
+              type: 'line',
+              data: comparedSucctrade
+            },
+          ]
+        });
+
+      },
+
+
     },
 
   }
 </script>
 
 <style scoped>
+
 
 </style>
