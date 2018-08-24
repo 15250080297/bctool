@@ -51,6 +51,7 @@
             <span v-if="scope.row.duration!='3600'">日对账单</span>
           </template>
         </el-table-column>
+        <el-table-column prop="total_succfee" :formatter="$money_column" label="成功交易金额"></el-table-column>
         <el-table-column prop="start_time" :formatter="$timeFormat" label="起始日期"></el-table-column>
         <el-table-column prop="updatedat" :formatter="$timeFormat" label="更新时间"></el-table-column>
 
