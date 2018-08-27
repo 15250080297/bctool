@@ -49,7 +49,7 @@
             </el-row>
 
 
-            <el-row :gutter="20">
+            <el-row :gutter="20" v-if="dutyBean.action=='RECONCILIATION_PAY'">
               <el-col :span="8">
                 <el-form-item label="CHANNEL">
                   <el-input v-model="dutyBean.channel"></el-input>
@@ -57,7 +57,7 @@
               </el-col>
             </el-row>
 
-            <el-row :gutter="20">
+            <el-row :gutter="20" v-if="dutyBean.action=='RECONCILIATION_PAY'">
               <el-col :span="8">
                 <el-form-item label="SUB_CHANNEL">
                   <el-input v-model="dutyBean.subChannel"></el-input>

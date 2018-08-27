@@ -6,6 +6,8 @@
 
       <el-button class="action-item" type="primary" @click="showAddForm">{{$t('button.add')}}</el-button>
       <el-button class="action-item" type="primary" @click="showSearchForm">{{$t('button.search')}}</el-button>
+      <el-button class="action-item" type="primary" @click="search">刷新</el-button>
+
       <!--<el-button class="action-item" type="primary">{{$t('button.approval')}}</el-button>-->
     </ActionBar>
 

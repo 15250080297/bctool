@@ -44,5 +44,6 @@ module.exports.Messages = {
 }
 
 module.exports.ActionEnum ={
-  RECONCILIATION_PAY:'批量支付对账'
+  RECONCILIATION_PAY:'批量支付对账',
+  WEBHOOK_REPAIRE:'批量Webhook补发'
 }
