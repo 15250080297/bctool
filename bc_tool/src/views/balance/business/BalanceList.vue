@@ -49,18 +49,44 @@
 
       <el-dialog title="违规列表" :visible.sync="dialogDeduct" width="66%">
 
+        <el-select v-model="freezeFlag" v-on:change="changeFeezeFlag">
+          <el-option value="" label="全部"></el-option>
+          <el-option value="I" label="只看冻结"></el-option>
+          <el-option value="F" label="只看解冻"></el-option>
+        </el-select>
 
-        <el-table :data="deductList" border stripe style="width: 100%" show-summary :summary-method="getSummaries2">
+
+        <el-table :data="deductRealList" border stripe style="width: 100%" show-summary :summary-method="getSummaries2">
           <el-table-column prop="email" label="邮箱" width="250"></el-table-column>
-          <el-table-column prop="amount" label="冻结金额" width="150" :formatter="$money_column"></el-table-column>
+          <el-table-column prop="amount" label="冻结金额" width="150" >
+            <template slot-scope="scope">
+           <div v-if="scope.row.status=='I'" class="red">
+           <span >
+              {{$money(scope.row.amount)}}
+            </span>
+           </div>
+              <div v-if="scope.row.status=='F'" class="green">
+                <span >
+              {{$money(scope.row.amount)}}
+            </span>
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column prop="remark" label="冻结原因" width="350"></el-table-column>
+          <el-table-column prop="status" label="状态" width="70">
+            <template slot-scope="scope">
+              <span v-if="scope.row.status=='I'" class="red">冻结中</span>
+              <span v-if="scope.row.status=='F'" class="green">已解冻</span>
+            </template>
+          </el-table-column>
           <el-table-column prop="createdat" label="冻结时间" :formatter="$timeFormat" width="200"></el-table-column>
+          <el-table-column prop="updatedat" label="更新时间" :formatter="$timeFormat" width="200"></el-table-column>
           <el-table-column
             fixed="right"
             label="操作"
             width="70">
             <template slot-scope="scope">
-              <el-button @click="deductcancelApi(scope.row.objectId,scope.row.amount)" type="text" size="small">解冻
+              <el-button v-if="scope.row.status=='I'" @click="deductcancelApi(scope.row.objectId,scope.row.amount)" type="text" size="small">解冻
               </el-button>
             </template>
           </el-table-column>
@@ -141,6 +167,7 @@
         rowData: [],
         dialogDeduct: false,
         deductList: [],
+        deductRealList: [],
         dialogFreeze: false,
         modifyEmail: '',
         freezeAmount: 0,
@@ -150,7 +177,8 @@
         canWithdrawAmount: 0,
         withdrawAmount: 0,
         withdrawPwd: '',
-        tableHeight:document.documentElement.clientHeight-100
+        tableHeight:document.documentElement.clientHeight-100,
+        freezeFlag:'I'
 
       }
     },
@@ -175,8 +203,31 @@
         deductlist(email).then(resp => {
           if (resp.code == 0) {
             this.deductList = resp.data.list;
+            this.changeFeezeFlag();
           }
         });
+      },
+      changeFeezeFlag:function(){
+        this.deductRealList=[];
+        for(let d of this.deductList){
+          var amount=d.amount;
+          if(''==this.freezeFlag||d.status==this.freezeFlag){
+            if(d.status=='I')
+              amount=-amount;
+            this.deductRealList.push({
+              status:d.status,
+              amount:amount,
+              email:d.email,
+              remark:d.remark,
+              createdat:d.createdat,
+              updatedat:d.updatedat,
+              objectId:d.objectId
+
+            });
+          }
+        }
+
+
       },
       showFreeze: function (email) {
         this.modifyEmail = email;
