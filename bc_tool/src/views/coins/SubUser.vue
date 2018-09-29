@@ -144,7 +144,7 @@
       },
       showDetail:function (adminUserId,subUserId) {
         this.accounts=[];
-        accounts(this.searchParams.adminUserId, this.searchParams.subUserId)
+        accounts(adminUserId, subUserId)
           .then(resp => {
             if (resp.code == 0) {
               this.accounts = resp.data.data.accounts;
