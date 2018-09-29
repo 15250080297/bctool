@@ -26,6 +26,12 @@ module.exports.ApiURL = {
   RECONCILIATION_GENERATE:'RECONCILITION_GENERATE',
   SPAY_LIST:'/spay/list',
   SPAY_RESET:'/spay/reset',
+  COINS_USER_LIST:'/coins/user/list',
+  COINS_USER_SERVICEINFO:'/coins/user/serviceinfo',
+  COINS_USER_BALANCES:'/coins/user/balances',
+  COINS_SUBUSER_LIST:'/coins/subuser/list',
+  COINS_SUBUSER_ACCOUNTS:'/coins/subuser/accounts',
+
 
 }
 module.exports.routerMap = {

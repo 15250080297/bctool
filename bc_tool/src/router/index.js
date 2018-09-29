@@ -90,6 +90,10 @@ export const routerParams = [
   {name: 'dutyMgr', component: () => import('@/views/tool/duty/Duty')},
   {name: 'reconcilitionFilesMgr', component: () => import('@/views/tool/reconcilition/Files')},
   {name: 'spayMgr', component: () => import('@/views/report/spay/spay')},
+  {name: 'cUserMgr', component: () => import('@/views/coins/User')},
+  {name: 'csubUserMgr', component: () => import('@/views/coins/SubUser')},
+  {name: 'cchargeBillMgr', component: () => import('@/views/coins/ChargeBill')},
+  {name: 'ctransferMgr', component: () => import('@/views/coins/TransferBill')},
 
 
 ]
