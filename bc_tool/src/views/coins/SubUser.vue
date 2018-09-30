@@ -5,7 +5,7 @@
     <ActionBar>
 
       <el-button class="action-item" type="primary" @click="showSearchForm">查询</el-button>
-      <el-button class="action-item" type="primary" @click="search">刷新</el-button>
+      <el-button class="action-item" type="primary" @click="handleCurrentChange(1)">刷新</el-button>
     </ActionBar>
 
     <!-- 查询 -->
@@ -60,6 +60,16 @@
       </el-dialog>
 
 
+      <div class="block" style="float: right">
+        <el-pagination
+          @current-change="handleCurrentChange"
+          :page-size="pageSize"
+          layout="total,prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
+      </div>
+
+
 
 
 
@@ -96,11 +106,14 @@
         apps: [],
         formLabelWidth: '80px',
         rows: [],
-        tableHeight: document.documentElement.clientHeight - 100,
+        tableHeight: document.documentElement.clientHeight - 200,
         detailRow: [],
         dialogDetail: false,
         adminUserList:[],
-        accounts:[]
+        accounts:[],
+        pageSize:20,
+        page:1,
+        total:0,
 
       }
     },
@@ -121,19 +134,23 @@
      // this.search();
     },
     methods: {
+      handleCurrentChange(val) {
+        this.search(val)
+      },
 
-      search: function () {
+      search: function (page=1) {
 
         if (0==this.searchParams.adminUserId) {
           this.$errorMsg("请选择主账户");
           return;
         }
+        this.page=page;
 
-
-        listApi(this.searchParams.adminUserId, this.searchParams.subUserId)
+        listApi(this.searchParams.adminUserId, this.searchParams.subUserId,this.page)
           .then(resp => {
             if (resp.code == 0) {
               this.rows = resp.data.data.list;
+              this.total = resp.data.data.total;
             }
           });
 
