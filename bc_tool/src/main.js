@@ -110,6 +110,21 @@ Vue.use({
       var time=row[column.property];
       return moment(time).format('YYYY-MM-DD HH:mm:ss');
     }
+
+    Vue.prototype.$longSrc =function (row, column) {
+      var src=row[column.property];
+      if(src.length>8){
+        return src.substring(0,3)+"..."+src.substring(src.length-3,src.length)
+      }else
+        return src;
+    }
+
+    Vue.prototype.$longSrc2 =function (src) {
+      if(src.length>8){
+        return src.substring(0,3)+"..."+src.substring(src.length-3,src.length)
+      }else
+        return src;
+    }
     Vue.prototype.$timeStampFormat =function (time) {
       return moment(time).format('YYYY-MM-DD HH:mm:ss');
     }

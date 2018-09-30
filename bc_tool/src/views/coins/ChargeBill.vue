@@ -1,157 +1,211 @@
 <template>
   <div class="tab-container">
 
+    <!-- 操作菜单项 -->
+    <ActionBar>
+
+      <el-button class="action-item" type="primary" @click="showSearchForm">查询</el-button>
+      <el-button class="action-item" type="primary" @click="handleCurrentChange(1)">刷新</el-button>
+    </ActionBar>
+
+    <!-- 查询 -->
+    <SCSearch id="cchargeBillSearcher" title="查询条件">
+      <el-form :model="searchParams">
+
+        <el-form-item label="主账户" :label-width="formLabelWidth">
+          <el-select v-model="searchParams.adminUserId">
+            <el-option v-for="p in adminUserList" :value="p.userId" :label="p.account" :key="p.userId"></el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="子用户id" :label-width="formLabelWidth">
+          <el-input v-model="searchParams.subUserId" ></el-input>
+        </el-form-item>
+
+        <el-form-item label="hashcode" :label-width="formLabelWidth">
+          <el-input v-model="searchParams.hashcode" ></el-input>
+        </el-form-item>
+
+        <el-form-item label="币种" :label-width="formLabelWidth">
+          <el-select v-model="searchParams.coinsType">
+            <el-option value="USDT" label="USDT"></el-option>
+            <el-option value="BTC" label="BTC"></el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="状态" :label-width="formLabelWidth">
+          <el-select v-model="searchParams.status">
+            <el-option value="" label="全部订单"></el-option>
+            <el-option value="S" label="成功"></el-option>
+            <el-option value="F" label="失败"></el-option>
+          </el-select>
+        </el-form-item>
+
+
+        <el-form-item label="起始日期" :label-width="formLabelWidth">
+          <el-date-picker format="yyyy-MM-dd" type="daterange" v-model="tiemRange"></el-date-picker>
+        </el-form-item>
+
+
+      </el-form>
+    </SCSearch>
+
 
     <SCContent>
 
-
-      <el-table :data="rowData" stripe border style="width: 100%" :height=tableHeight >
-        <el-table-column fixed prop="userId" label="用户id">
-        </el-table-column>
-        <el-table-column prop="account" label="账户"></el-table-column>
-        <el-table-column prop="create_time" label="时间" :formatter="$timeFormat" width="200"></el-table-column>
-
-        <el-table-column
-          fixed="right"
-          label="操作"
-          width="390">
+      <el-table  :data="rows" stripe border style="width: 100%" :height=tableHeight>
+        <el-table-column prop="subUserId" label="子账户id"></el-table-column>
+       <el-table-column prop="hashcode" label="hashcode"  >
+         <template slot-scope="scope">
+           <span :title="scope.row.hashcode">{{$longSrc2(scope.row.hashcode)}}</span>
+         </template>
+       </el-table-column>
+        <el-table-column prop="destinationAddress" label="目的地址"  >
           <template slot-scope="scope">
-            <el-button @click="showConfig(scope.row.appId,scope.row.appKey,scope.row.webhook)" type="text" size="small">配置</el-button>
-            <el-button @click="showService(scope.row.userId)" type="text" size="small">费率</el-button>
-            <el-button @click="showBalance(scope.row.userId)" type="text" size="small">资金</el-button>
-            <el-button @click="showSubUsers(scope.row.userId)" type="text" size="small">子账户</el-button>
+            <span :title="scope.row.destinationAddress">{{$longSrc2(scope.row.destinationAddress)}}</span>
           </template>
         </el-table-column>
+        <el-table-column prop="amount" label="交易金额"></el-table-column>
+        <el-table-column prop="channelFee" label="手续费"></el-table-column>
+        <el-table-column prop="realAmount" label="实收金额"></el-table-column>
+        <el-table-column prop="status" label="状态">
+          <template slot-scope="scope">
+            <span v-if="scope.row.status==-1" class="red">失败</span>
+            <span v-if="scope.row.status>=scope.row.monitorTimes" class="green">成功</span>
+            <span v-if="scope.row.status<scope.row.monitorTimes && scope.row.status>=0">处理中</span>
+          </template>
+
+        </el-table-column>
+        <el-table-column prop="create_time" label="创建时间" :formatter="$timeFormat" width="160"></el-table-column>
+        <el-table-column prop="tradeTime" label="交易时间" :formatter="$timeFormat" width="160"></el-table-column>
+
       </el-table>
 
-
-      <el-dialog title="配置信息" :visible.sync="dialogConfig">
-        <el-form>
-          <el-form-item label="appId:" :label-width="formLabelWidth">
-            {{appId}}
-          </el-form-item>
-          <el-form-item label="appKey:" :label-width="formLabelWidth">
-            {{appKey}}
-          </el-form-item>
-          <el-form-item label="webHook:" :label-width="formLabelWidth">
-            {{webHook}}
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogConfig = false">关 闭</el-button>
-        </div>
-      </el-dialog>
+      <div class="block" style="float: right">
+        <el-pagination
+          @current-change="handleCurrentChange"
+          :page-size="pageSize"
+          layout="total,prev, pager, next, jumper"
+          :total="total">
+        </el-pagination>
+      </div>
 
 
-      <el-dialog title="费率配置" :visible.sync="dialogService" width="66%">
 
-        <el-table :data="serviceInfoList" border stripe style="width: 100%" >
-          <el-table-column prop="coinsType" label="coinsType" ></el-table-column>
-          <el-table-column prop="chargeChannelFee" label="充值费率" ></el-table-column>
-          <el-table-column prop="transferChannelFee" label="打款费率" ></el-table-column>
-          <el-table-column prop="monitorTimes" label="回调阈值"></el-table-column>
-        </el-table>
 
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogService = false">关 闭</el-button>
-        </div>
 
-      </el-dialog>
-
-      <el-dialog title="资金列表" :visible.sync="dialogBalance" width="66%">
-
-        <el-table :data="balanceList" border stripe style="width: 100%" >
-          <el-table-column prop="coinsType" label="coinsType" ></el-table-column>
-          <el-table-column prop="amount" label="余额" ></el-table-column>
-        </el-table>
-
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogBalance = false">关 闭</el-button>
-        </div>
-
-      </el-dialog>
 
 
 
 
     </SCContent>
 
+
   </div>
 </template>
 
 <script>
+  import ActionBar from '@/components/ActionBar'
   import SCContent from '@/components/SCContent'
-  import {listAll,serviceInfo,balancesApi} from '@/api/coins/user'
+  import SCSearch from '@/components/SCSearch'
+  import {appsApi} from '@/api/common/common'
+  import {listAll} from '@/api/coins/user'
+  import {listApi} from '@/api/coins/chargeBill'
+
+  import echarts from 'echarts';
+
+
+  const globalConfig = require('../../../config');
+  var moment = require('moment');
 
   export default {
-    components: {SCContent},
+    components: {ActionBar, SCContent, SCSearch},
     data() {
       return {
-        rowData: [],
-        tableHeight:document.documentElement.clientHeight-100,
-        formLabelWidth: '120px',
-
-        dialogConfig:false,
-        dialogService:false,
-        dialogBalance:false,
-        appId:'',
-        appKey:'',
-        webHook:'',
-        serviceInfoList:[],
-        balanceList:[],
+        searchParams: {
+          adminUserId: 0,
+          subUserId: '',
+          hashcode:'',
+          coinsType:'USDT',
+          status:''
+        },
+        startTime:0,
+        endTime:0,
+        pageSize:20,
+        page:1,
+        total:0,
+        tiemRange: [],
+        apps: [],
+        formLabelWidth: '80px',
+        rows: [],
+        tableHeight: document.documentElement.clientHeight - 200,
+        detailRow: [],
+        dialogDetail: false,
+        adminUserList:[],
+        accounts:[]
 
       }
+    },
+    created() {
+      this.$root.$off('search:cchargeBillSearcher')
+      this.$root.$on('search:cchargeBillSearcher', () => {
+        this.search();
+      })
+
     },
     mounted() {
-      this.listAll();
+      listAll().then(resp => {
+        if (resp.code == 0) {
+          this.adminUserList = resp.data.data.users;
+        }
+
+      });
+
+      this.tiemRange[0] = moment(new Date()).startOf("day");
+      this.tiemRange[1] = moment(new Date()).endOf("day");
+
+      // this.search();
     },
-
     methods: {
-
-      listAll: function () {
-        listAll().then(resp => {
-
-          if (resp.code == 0) {
-            this.rowData = resp.data.data.users;
-          }
-
-        });
+      handleCurrentChange(val) {
+        this.search(val)
       },
-      showConfig:function (appId,appKey,webHook) {
-          this.appId=appId;
-          this.appKey=appKey;
-          this.webHook=webHook;
-          this.dialogConfig=true;
-      },
-      showService:function (userId) {
-        this.serviceInfoList=[];
-        serviceInfo(userId).then(resp => {
-          if (resp.code == 0) {
-            this.serviceInfoList = resp.data.data.infos;
-          }
 
-        });
-        this.dialogService=true;
-      },
-      showBalance:function (userId) {
-        this.balanceList=[];
-        balancesApi(userId).then(resp => {
-          if (resp.code == 0) {
-            this.balanceList = resp.data.data.balances;
-          }
+      search: function (page=1) {
 
-        });
-        this.dialogBalance=true;
-      },
-      showSubUsers:function (userId) {
-        
-      }
+        if (0==this.searchParams.adminUserId) {
+          this.$errorMsg("请选择主账户");
+          return;
+        }
+        this.page=page;
 
-    }
+        this.startTime = moment(this.tiemRange[0]).format('X') * 1000;
+        this.endTime = moment(this.tiemRange[1]).endOf("day").format('X') * 1000;
+
+
+        listApi(this.searchParams.adminUserId, this.searchParams.subUserId,this.searchParams.hashcode,
+          this.searchParams.coinsType,this.searchParams.status,this.startTime,this.endTime,this.page)
+          .then(resp => {
+            if (resp.code == 0) {
+              this.rows = resp.data.data.list;
+              this.total=resp.data.data.total;
+            }
+          });
+
+
+      },
+      showSearchForm: function () {
+        this.$root.$emit('showSearch:cchargeBillSearcher');
+      },
+
+
+
+    },
 
   }
 </script>
 
 <style scoped>
+
 
 </style>

@@ -31,6 +31,8 @@ module.exports.ApiURL = {
   COINS_USER_BALANCES:'/coins/user/balances',
   COINS_SUBUSER_LIST:'/coins/subuser/list',
   COINS_SUBUSER_ACCOUNTS:'/coins/subuser/accounts',
+  COINS_CHARGEBILL_LIST:'/coins/bill/chargelist',
+  COINS_TRANSFERBILL_LIST:'/coins/bill/transferlist',
 
 
 }
