@@ -19,9 +19,12 @@
             <el-button @click="showConfig(scope.row.appId,scope.row.appKey,scope.row.webhook)" type="text" size="small">配置</el-button>
             <el-button @click="showService(scope.row.userId)" type="text" size="small">费率</el-button>
             <el-button @click="showBalance(scope.row.userId)" type="text" size="small">资金</el-button>
-<!--
+
             <el-button @click="showSubUsers(scope.row.userId)" type="text" size="small">子账户</el-button>
--->
+
+            <el-button @click="showChargeBill(scope.row.userId)" type="text" size="small">充值管理</el-button>
+            <el-button @click="showTransferBill(scope.row.userId)" type="text" size="small">打款管理</el-button>
+
           </template>
         </el-table-column>
       </el-table>
@@ -145,10 +148,18 @@
         });
         this.dialogBalance=true;
       },
-     /* showSubUsers:function (userId) {
-        this.$router.push({ path: '/coins/csubUserMgr/'+userId})
+      showSubUsers:function (userId) {
+        this.$router.push({ path: '/coins/csubUserMgr?auid='+userId})
 
-      }*/
+      },
+      showChargeBill:function (userId) {
+        this.$router.push({ path: '/coins/cchargeBillMgr?auid='+userId})
+
+      },
+      showTransferBill:function (userId) {
+        this.$router.push({ path: '/coins/ctransferMgr?auid='+userId})
+
+      }
 
     }
 

@@ -55,21 +55,21 @@
 
       <el-table  :data="rows" stripe border style="width: 100%" :height=tableHeight>
         <el-table-column prop="subUserId" label="子账户id"></el-table-column>
-       <el-table-column prop="hashcode" label="hashcode"  >
+       <el-table-column prop="hashcode" label="hashcode"  width="90">
          <template slot-scope="scope">
            <el-button @click="showLongSrcDialog(scope.row.hashcode)" :title="scope.row.hashcode" type="text" size="small">{{$longSrc2(scope.row.hashcode)}}</el-button>
 
          </template>
        </el-table-column>
-        <el-table-column prop="destinationAddress" label="目的地址"  >
+        <el-table-column prop="destinationAddress" label="目的地址"  width="90">
           <template slot-scope="scope">
             <el-button @click="showLongSrcDialog(scope.row.destinationAddress)" :title="scope.row.destinationAddress" type="text" size="small">{{$longSrc2(scope.row.destinationAddress)}}</el-button>
           </template>
         </el-table-column>
-        <el-table-column prop="amount" label="交易金额"></el-table-column>
-        <el-table-column prop="channelFee" label="手续费"></el-table-column>
-        <el-table-column prop="realAmount" label="实收金额"></el-table-column>
-        <el-table-column prop="status" label="状态">
+        <el-table-column prop="amount" label="交易金额" width="130"></el-table-column>
+        <el-table-column prop="channelFee" label="手续费" width="130"></el-table-column>
+        <el-table-column prop="realAmount" label="实收金额" width="130"></el-table-column>
+        <el-table-column prop="status" label="状态" width="70">
           <template slot-scope="scope">
             <span v-if="scope.row.status==-1" class="red">失败</span>
             <span v-if="scope.row.status>=scope.row.monitorTimes" class="green">成功</span>
@@ -182,7 +182,18 @@
       this.tiemRange[0] = moment(new Date()).startOf("day");
       this.tiemRange[1] = moment(new Date()).endOf("day");
 
-      // this.search();
+
+      var auid=this.$route.query.auid;
+      var suid=this.$route.query.suid;
+      if(suid&&suid.length>0){
+        this.searchParams.subUserId=suid;
+
+      }
+      if(auid&&auid>0){
+        this.searchParams.adminUserId=parseInt(auid);
+        this.search();
+      }
+
     },
     methods: {
       handleCurrentChange(val) {

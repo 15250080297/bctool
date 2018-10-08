@@ -29,7 +29,7 @@
     <SCContent>
 
       <el-table  :data="rows" stripe border style="width: 100%" :height=tableHeight>
-        <el-table-column prop="adminUserId" label="主账户id"></el-table-column>
+        <el-table-column width="130%" prop="adminUserId" label="主账户id"></el-table-column>
         <el-table-column prop="subUserId" label="子账户id"></el-table-column>
         <el-table-column prop="userName" label="昵称"></el-table-column>
         <el-table-column prop="create_time" label="时间" :formatter="$timeFormat" width="200"></el-table-column>
@@ -37,9 +37,12 @@
         <el-table-column
           fixed="right"
           label="操作"
-          width="110">
+          width="210">
           <template slot-scope="scope">
             <el-button @click="showDetail(scope.row.adminUserId,scope.row.subUserId)" type="text" size="small">明细</el-button>
+
+            <el-button @click="showChargeBill(scope.row.adminUserId,scope.row.subUserId)" type="text" size="small">充值管理</el-button>
+            <el-button @click="showTransferBill(scope.row.adminUserId,scope.row.subUserId)" type="text" size="small">打款管理</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -68,7 +71,6 @@
           :total="total">
         </el-pagination>
       </div>
-
 
 
 
@@ -125,13 +127,23 @@
 
     },
     mounted() {
+     //alert($route.params.auid);
+
       listAll().then(resp => {
         if (resp.code == 0) {
           this.adminUserList = resp.data.data.users;
+
+          var auid=this.$route.query.auid;
+          if(auid&&auid>0){
+            this.searchParams.adminUserId=parseInt(auid);
+            this.search();
+          }
         }
 
       });
-     // this.search();
+
+
+
     },
     methods: {
       handleCurrentChange(val) {
@@ -168,6 +180,14 @@
             }
           });
         this.dialogDetail=true;
+      },
+      showChargeBill:function (userId,subUserId) {
+        this.$router.push({ path: '/coins/cchargeBillMgr?auid='+userId+'&suid='+subUserId})
+
+      },
+      showTransferBill:function (userId,subUserId) {
+        this.$router.push({ path: '/coins/ctransferMgr?auid='+userId+'&suid='+subUserId})
+
       }
 
 
