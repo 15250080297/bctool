@@ -1,6 +1,28 @@
 <template>
   <div class="tab-container">
 
+    <!-- 操作菜单项 -->
+    <ActionBar>
+
+      <el-button class="action-item" type="primary" @click="showSearchForm">查询</el-button>
+      <el-button class="action-item" type="primary" @click="listAll">刷新</el-button>
+    </ActionBar>
+
+    <!-- 查询 -->
+    <SCSearch id="businessListSearcher" title="查询条件">
+      <el-form :model="searchParams">
+
+        <el-form-item label="应用" :label-width="formLabelWidth">
+          <el-select v-model="searchParams.type">
+            <el-option  value="YYT" label="银盈通" ></el-option>
+            <el-option  value="MFHCD" label="现代支付" ></el-option>
+          </el-select>
+        </el-form-item>
+
+      </el-form>
+    </SCSearch>
+
+
 
     <SCContent>
 
@@ -157,11 +179,13 @@
 </template>
 
 <script>
+  import ActionBar from '@/components/ActionBar'
   import SCContent from '@/components/SCContent'
+  import SCSearch from '@/components/SCSearch'
   import {listAll, freeze, deductlist, deductcancel,drawApi} from '@/api/balance/business'
 
   export default {
-    components: {SCContent},
+    components: {ActionBar,SCSearch,SCContent},
     data() {
       return {
         rowData: [],
@@ -178,18 +202,30 @@
         withdrawAmount: 0,
         withdrawPwd: '',
         tableHeight:document.documentElement.clientHeight-100,
-        freezeFlag:'I'
+        freezeFlag:'I',
+        searchParams: {
+          type: 'YYT',
+        },
 
       }
+    },
+    created() {
+      this.$root.$off('search:businessListSearcher')
+      this.$root.$on('search:businessListSearcher', () => {
+        this.listAll();
+      })
+
     },
     mounted() {
       this.listAll();
     },
 
     methods: {
-
+      showSearchForm: function () {
+        this.$root.$emit('showSearch:businessListSearcher');
+      },
       listAll: function () {
-        listAll().then(resp => {
+        listAll(this.searchParams.type).then(resp => {
           if (resp.code == 0) {
             this.rowData = resp.data.rows;
           }

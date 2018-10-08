@@ -1,10 +1,10 @@
 import request from '@/utils/request'
 import config from '@/config'
 
-export function listAll() {
+export function listAll(type) {
 
   var obj={
-
+    type:type,
   };
   return request({
     method: 'post',

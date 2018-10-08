@@ -57,12 +57,13 @@
         <el-table-column prop="subUserId" label="子账户id"></el-table-column>
        <el-table-column prop="hashcode" label="hashcode"  >
          <template slot-scope="scope">
-           <span :title="scope.row.hashcode">{{$longSrc2(scope.row.hashcode)}}</span>
+           <el-button @click="showLongSrcDialog(scope.row.hashcode)" :title="scope.row.hashcode" type="text" size="small">{{$longSrc2(scope.row.hashcode)}}</el-button>
+
          </template>
        </el-table-column>
         <el-table-column prop="destinationAddress" label="目的地址"  >
           <template slot-scope="scope">
-            <span :title="scope.row.destinationAddress">{{$longSrc2(scope.row.destinationAddress)}}</span>
+            <el-button @click="showLongSrcDialog(scope.row.destinationAddress)" :title="scope.row.destinationAddress" type="text" size="small">{{$longSrc2(scope.row.destinationAddress)}}</el-button>
           </template>
         </el-table-column>
         <el-table-column prop="amount" label="交易金额"></el-table-column>
@@ -91,6 +92,21 @@
       </div>
 
 
+      <el-dialog title="字段展示" :visible.sync="dialogLongsrc" width="56%">
+
+        <div style="text-align: center">
+          <h3 >{{showLongSrc}}
+          </h3>
+
+        </div>
+
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogLongsrc = false">关 闭</el-button>
+        </div>
+
+      </el-dialog>
+
+
 
 
 
@@ -112,7 +128,7 @@
   import {listAll} from '@/api/coins/user'
   import {listApi} from '@/api/coins/chargeBill'
 
-  import echarts from 'echarts';
+
 
 
   const globalConfig = require('../../../config');
@@ -142,7 +158,9 @@
         detailRow: [],
         dialogDetail: false,
         adminUserList:[],
-        accounts:[]
+        accounts:[],
+        dialogLongsrc:false,
+        showLongSrc:''
 
       }
     },
@@ -197,6 +215,12 @@
       showSearchForm: function () {
         this.$root.$emit('showSearch:cchargeBillSearcher');
       },
+      showLongSrcDialog:function (src) {
+        this.showLongSrc=src;
+        this.dialogLongsrc=true;
+
+      },
+
 
 
 
