@@ -1,11 +1,12 @@
 import request from '@/utils/request'
 import config from '@/config'
 
-export function listApi(adminUserId,subUserId,page) {
+export function listApi(adminUserId,subUserId,coinsAddress,page) {
   var skip=(page-1)*20;
   var obj={
     adminUserId:adminUserId,
     subUserId:subUserId,
+    coinsAddress:coinsAddress,
     skip:skip
   };
   return request({

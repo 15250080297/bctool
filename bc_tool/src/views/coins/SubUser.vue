@@ -22,6 +22,10 @@
           <el-input v-model="searchParams.subUserId" ></el-input>
         </el-form-item>
 
+        <el-form-item label="币地址" :label-width="formLabelWidth">
+          <el-input v-model="searchParams.coinsAddress" ></el-input>
+        </el-form-item>
+
       </el-form>
     </SCSearch>
 
@@ -103,6 +107,7 @@
         searchParams: {
           adminUserId: 0,
           subUserId: '',
+          coinsAddress:'',
         },
         tiemRange: [],
         apps: [],
@@ -158,7 +163,7 @@
         }
         this.page=page;
 
-        listApi(this.searchParams.adminUserId, this.searchParams.subUserId,this.page)
+        listApi(this.searchParams.adminUserId, this.searchParams.subUserId,this.searchParams.coinsAddress,this.page)
           .then(resp => {
             if (resp.code == 0) {
               this.rows = resp.data.data.list;

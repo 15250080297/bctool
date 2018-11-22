@@ -16,6 +16,7 @@
           <el-select v-model="searchParams.type">
             <el-option  value="YYT" label="银盈通" ></el-option>
             <el-option  value="MFHCD" label="现代支付" ></el-option>
+            <el-option  value="HFB" label="汇付宝" ></el-option>
           </el-select>
         </el-form-item>
 
